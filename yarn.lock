@@ -93,6 +93,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@astrojs/markdoc@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "@astrojs/markdoc@npm:1.0.5"
+  dependencies:
+    "@astrojs/internal-helpers": "npm:0.9.1"
+    "@astrojs/markdown-remark": "npm:7.1.2"
+    "@astrojs/prism": "npm:4.0.2"
+    "@markdoc/markdoc": "npm:^0.5.4"
+    esbuild: "npm:^0.27.3"
+    github-slugger: "npm:^2.0.0"
+    htmlparser2: "npm:^10.1.0"
+  peerDependencies:
+    astro: ^6.0.0
+  checksum: 10c0/d96b3fe8cda42b1da4db95fdb3498e5e38cc5667458ec451582ff55d3632195e0daa5b80a6402a13e751c88a19fee38e6bc9cc74682ec0581a1992f56724fbf1
+  languageName: node
+  linkType: hard
+
 "@astrojs/markdown-remark@npm:7.1.2":
   version: 7.1.2
   resolution: "@astrojs/markdown-remark@npm:7.1.2"
@@ -1719,6 +1736,29 @@ __metadata:
     react:
       optional: true
   checksum: 10c0/32619bfa682681ad5feb337997050bf1c65e732787ac7a63aa7e25e4224a73d9a07cf9c2c18660342d3f4b1d0fa4c15194761fd72657be2e5d20f9a7a8e81988
+  languageName: node
+  linkType: hard
+
+"@markdoc/markdoc@npm:^0.5.4":
+  version: 0.5.7
+  resolution: "@markdoc/markdoc@npm:0.5.7"
+  dependencies:
+    "@types/linkify-it": "npm:^3.0.1"
+    "@types/markdown-it": "npm:12.2.3"
+  peerDependencies:
+    "@types/react": "*"
+    react: "*"
+  dependenciesMeta:
+    "@types/linkify-it":
+      optional: true
+    "@types/markdown-it":
+      optional: true
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    react:
+      optional: true
+  checksum: 10c0/1677fcd6cd87d3c1e59c45335af57cc216fa93abbec048afa9b5e750f809b1d6d495dee3a7f5ccb93c883cb3ae7bfec2fdb4993b69e9c473cdcadcff9c101b4c
   languageName: node
   linkType: hard
 
@@ -4320,6 +4360,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/linkify-it@npm:^3.0.1":
+  version: 3.0.5
+  resolution: "@types/linkify-it@npm:3.0.5"
+  checksum: 10c0/696e09975991c649ba37c5585714929fdebf5c64a8bfb99910613ef838337dbbba6c608fccdfa03d6347432586ef12e139bc0e947ae6fec569096fef5cc1c550
+  languageName: node
+  linkType: hard
+
 "@types/lodash@npm:^4.14.149":
   version: 4.17.24
   resolution: "@types/lodash@npm:4.17.24"
@@ -5118,7 +5165,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"domutils@npm:^3.0.1":
+"domutils@npm:^3.0.1, domutils@npm:^3.2.2":
   version: 3.2.2
   resolution: "domutils@npm:3.2.2"
   dependencies:
@@ -5171,6 +5218,13 @@ __metadata:
   version: 6.0.1
   resolution: "entities@npm:6.0.1"
   checksum: 10c0/ed836ddac5acb34341094eb495185d527bd70e8632b6c0d59548cbfa23defdbae70b96f9a405c82904efa421230b5b3fd2283752447d737beffd3f3e6ee74414
+  languageName: node
+  linkType: hard
+
+"entities@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "entities@npm:7.0.1"
+  checksum: 10c0/b4fb9937bb47ecb00aaaceb9db9cdd1cc0b0fb649c0e843d05cf5dbbd2e9d2df8f98721d8b1b286445689c72af7b54a7242fc2d63ef7c9739037a8c73363e7ca
   languageName: node
   linkType: hard
 
@@ -5985,6 +6039,18 @@ __metadata:
   version: 3.0.0
   resolution: "html-void-elements@npm:3.0.0"
   checksum: 10c0/a8b9ec5db23b7c8053876dad73a0336183e6162bf6d2677376d8b38d654fdc59ba74fdd12f8812688f7db6fad451210c91b300e472afc0909224e0a44c8610d2
+  languageName: node
+  linkType: hard
+
+"htmlparser2@npm:^10.1.0":
+  version: 10.1.0
+  resolution: "htmlparser2@npm:10.1.0"
+  dependencies:
+    domelementtype: "npm:^2.3.0"
+    domhandler: "npm:^5.0.3"
+    domutils: "npm:^3.2.2"
+    entities: "npm:^7.0.1"
+  checksum: 10c0/36394e29b80cfcc5e78e0fa4d3aa21fdaac3e6778d23e5c933e625c290987cd9a724a2eb0753ab60ed0c69dfaba0ab115f0ee50fb112fd8f0c4d522e7e0089a2
   languageName: node
   linkType: hard
 
@@ -7594,6 +7660,7 @@ __metadata:
   resolution: "personal-website@workspace:."
   dependencies:
     "@astrojs/cloudflare": "npm:^13.5.2"
+    "@astrojs/markdoc": "npm:^1.0.5"
     "@astrojs/mdx": "npm:^5.0.6"
     "@astrojs/react": "npm:^5.0.5"
     "@astrojs/rss": "npm:^4.0.18"

@@ -11,45 +11,57 @@ import remarkGfm from 'remark-gfm';
 import { CONFIG } from './src/data/config.ts';
 import { remarkCodeMeta } from './src/lib/remark-code-meta.ts';
 
+import markdoc from '@astrojs/markdoc';
+
 /** @type {import('rehype-pretty-code').Options} */
 const prettyCodeOptions = {
-	theme: {
-		light: 'github-light',
-		dark: 'github-dark',
-	},
-	keepBackground: false,
+    theme: {
+        light: 'github-light',
+        dark: 'github-dark',
+    },
+    keepBackground: false,
 };
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 // https://astro.build/config
 export default defineConfig({
-	site: CONFIG.site.url,
-	output: 'static',
-	adapter: cloudflare({
-		imageService: 'compile',
-	}),
-	session: {
-		driver: sessionDrivers.lruCache(),
-	},
+    site: CONFIG.site.url,
+    output: 'static',
+    // Cloudflare Workers dev runtime breaks Keystatic (Node-only SSR routes).
+    ...(isProduction && {
+        adapter: cloudflare({
+            imageService: 'compile',
+        }),
+        session: {
+            driver: sessionDrivers.lruCache(),
+        },
+    }),
 
-	vite: {
-		plugins: [tailwindcss()],
-	},
+    vite: {
+        plugins: [tailwindcss()],
+        // Keystatic uses virtual:keystatic-config; esbuild in optimizeDeps cannot resolve it.
+        optimizeDeps: {
+            exclude: ['@keystatic/astro'],
+        },
+    },
 
-	integrations: [
-		react(),
-		// Keystatic admin is dev-only; static builds stay adapter-free.
-		...(process.env.NODE_ENV !== 'production' ? [keystatic()] : []),
-		mdx({
-			remarkPlugins: [remarkGfm, remarkCodeMeta],
-			rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]],
-			syntaxHighlight: false,
-		}),
-		sitemap(),
-	],
+    integrations: [
+      react(),
+      // Keystatic admin is dev-only; production builds use the Cloudflare adapter.
+      ...(!isProduction ? [keystatic()] : []),
+      mdx({
+          remarkPlugins: [remarkGfm, remarkCodeMeta],
+          rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]],
+          syntaxHighlight: false,
+      }),
+      sitemap(),
+      markdoc(),
+    ],
 
-	markdown: {
-		syntaxHighlight: false,
-		remarkPlugins: [remarkGfm, remarkCodeMeta],
-		rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]],
-	},
+    markdown: {
+        syntaxHighlight: false,
+        remarkPlugins: [remarkGfm, remarkCodeMeta],
+        rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]],
+    },
 });

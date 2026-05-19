@@ -9,13 +9,14 @@
   "scripts": {
     "dev": "astro dev",
     "cms": "astro dev",
-    "build": "astro build",
+    "build": "NODE_ENV=production astro build",
     "preview:cf": "NODE_ENV=production astro build && wrangler dev --config dist/server/wrangler.json",
     "deploy": "NODE_ENV=production astro build && wrangler deploy --config dist/server/wrangler.json",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/markdoc": "^1.0.5",
     "@astrojs/mdx": "^5.0.6",
     "@astrojs/react": "^5.0.5",
     "@astrojs/rss": "^4.0.18",
