@@ -4,6 +4,7 @@ import { DATA } from "@/data/resume";
 import { CONFIG } from "@/data/config";
 import NavbarIsland from "@/components/NavbarIsland";
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
+import { siteCanonical } from "@/lib/utils";
 
 interface Props {
   title?: string;
@@ -16,12 +17,14 @@ const {
   title,
   description = DATA.description,
   image,
-  canonicalURL = Astro.url.href,
+  canonicalURL,
 } = Astro.props;
 
 const pageTitle = title
   ? CONFIG.seo.titleTemplate.replace("%s", title).replace("%n", DATA.name)
-  : DATA.name;
+  : DATA.seoTitle;
+const resolvedCanonical =
+  canonicalURL ?? siteCanonical(Astro.url.pathname, CONFIG.site.url);
 const ogImage = image
   ? image.startsWith("http")
     ? image
@@ -30,6 +33,7 @@ const ogImage = image
 
 const { light, dark, radius } = CONFIG.theme;
 const { baseFontSize } = CONFIG.typography;
+const twitterHandle = CONFIG.site.twitterHandle;
 ---
 
 <html
@@ -109,11 +113,15 @@ const { baseFontSize } = CONFIG.typography;
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Primary meta -->
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalURL} />
+    <meta name="author" content={DATA.name} />
+    <link rel="canonical" href={resolvedCanonical} />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f8fa" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#141b24" />
 
     <!-- Robots -->
     <meta name="robots" content={CONFIG.seo.robots} />
@@ -124,27 +132,39 @@ const { baseFontSize } = CONFIG.typography;
 
     <!-- OpenGraph -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:url" content={resolvedCanonical} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content={DATA.name} />
     <meta property="og:locale" content={CONFIG.site.locale} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={pageTitle} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content={CONFIG.seo.twitterCard} />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={pageTitle} />
+    <meta name="twitter:url" content={resolvedCanonical} />
+    {twitterHandle ? <meta name="twitter:site" content={twitterHandle} /> : null}
   </head>
   <body class="min-h-screen bg-background font-sans antialiased relative">
-    <!-- FlickeringGrid header background - matches template exactly -->
-    <div class="absolute inset-0 top-0 left-0 right-0 h-25 overflow-hidden z-0">
+    <a
+      href="#content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
+    >
+      Skip to content
+    </a>
+
+    <div class="absolute inset-0 top-0 left-0 right-0 h-40 overflow-hidden z-0 pointer-events-none">
       <FlickeringGrid
         client:load
         className="h-full w-full"
         squareSize={2}
         gridGap={2}
+        color="var(--primary)"
+        maxOpacity={0.22}
         style={{
           maskImage: "linear-gradient(to bottom, black, transparent)",
           WebkitMaskImage: "linear-gradient(to bottom, black, transparent)",
@@ -152,12 +172,15 @@ const { baseFontSize } = CONFIG.typography;
       />
     </div>
 
-    <!-- Main content wrapper - matches template's z-10 container exactly -->
-    <div class="relative z-10 max-w-2xl mx-auto py-12 pb-24 sm:py-24 px-6">
+    <div id="content" class="relative z-10 max-w-2xl mx-auto py-12 pb-28 sm:py-24 px-6">
       <slot />
+      <footer class="mt-20 text-center text-xs text-muted-foreground">
+        <p>
+          &copy; {new Date().getFullYear()} {DATA.shortName} Ramdhani
+        </p>
+      </footer>
     </div>
 
-    <!-- Navbar: ThemeProvider + TooltipProvider + Navbar all in one React island -->
     <NavbarIsland client:load />
   </body>
 </html>

@@ -2,8 +2,30 @@
 export const prerender = true;
 import Layout from "../layouts/Layout.astro";
 import HomePage from "@/components/HomePage";
+import { DATA } from "@/data/resume";
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: DATA.name,
+  alternateName: "Raffi Ramdhani",
+  jobTitle: DATA.role,
+  url: DATA.url,
+  email: DATA.contact.email,
+  telephone: DATA.contact.phoneHref.replace("tel:", ""),
+  image: `${DATA.url}${DATA.ogImage}`,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Jakarta Selatan",
+    addressRegion: "DKI Jakarta",
+    addressCountry: "ID",
+  },
+  sameAs: [DATA.contact.social.GitHub.url],
+  description: DATA.description,
+}).replace(/</g, "\\u003c");
 ---
 
 <Layout>
-  <HomePage client:only="react" />
+  <script is:inline type="application/ld+json" set:html={jsonLd} />
+  <HomePage client:load />
 </Layout>

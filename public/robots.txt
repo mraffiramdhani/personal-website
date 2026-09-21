@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mraffiramdhani.dev/sitemap-index.xml

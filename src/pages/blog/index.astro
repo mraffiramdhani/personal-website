@@ -36,7 +36,10 @@ const posts = paginatedPosts.map((post) => ({
 }));
 ---
 
-<Layout title="Blog" description={DATA.description}>
+<Layout
+  title="Blog"
+  description={`Notes from ${DATA.shortName} Ramdhani on JavaScript, TypeScript, and building products.`}
+>
   <BlogList
     client:load
     posts={posts}

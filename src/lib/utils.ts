@@ -5,6 +5,22 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export function initials(name: string, max = 2) {
+  return name
+    .split(/\s+/)
+    .filter((part) => /^[A-Za-z]/.test(part))
+    .map((part) => part[0])
+    .join("")
+    .slice(0, max)
+    .toUpperCase()
+}
+
+export function siteCanonical(pathname: string, siteUrl: string) {
+  const origin = siteUrl.replace(/\/$/, "")
+  if (pathname === "/" || pathname === "") return origin
+  return `${origin}${pathname.replace(/\/$/, "")}`
+}
+
 export function formatDate(date: string | Date) {
   let currentDate = new Date().getTime();
   let dateStr = typeof date === "string" ? date : date.toISOString();

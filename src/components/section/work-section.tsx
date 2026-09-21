@@ -8,14 +8,20 @@ import {
 } from "@/components/ui/accordion";
 import { DATA } from "@/data/resume";
 import { ChevronDown, ChevronRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, initials } from "@/lib/utils";
+import Markdown from "react-markdown";
 
-function LogoImage({ src, alt }: { src: string; alt: string }) {
+function LogoImage({ src, alt, fallback }: { src: string; alt: string; fallback: string }) {
   const [imageError, setImageError] = useState(false);
 
   if (!src || imageError) {
     return (
-      <div className="size-8 md:size-10 p-1 border rounded-full shadow ring-2 ring-border bg-muted flex-none" />
+      <div
+        className="size-8 md:size-10 border rounded-full shadow-sm ring-2 ring-border bg-accent/60 text-accent-foreground flex-none flex items-center justify-center text-[10px] font-semibold tracking-tight"
+        aria-hidden
+      >
+        {fallback}
+      </div>
     );
   }
 
@@ -23,7 +29,7 @@ function LogoImage({ src, alt }: { src: string; alt: string }) {
     <img
       src={src}
       alt={alt}
-      className="size-8 md:size-10 p-1 border rounded-full shadow ring-2 ring-border overflow-hidden object-contain flex-none"
+      className="size-8 md:size-10 p-1 border rounded-full shadow-sm ring-2 ring-border overflow-hidden object-contain flex-none"
       onError={() => setImageError(true)}
     />
   );
@@ -38,10 +44,14 @@ export default function WorkSection() {
           value={work.company}
           className="w-full border-b-0 grid gap-2"
         >
-          <AccordionTrigger className="hover:no-underline p-0 cursor-pointer transition-colors rounded-none group [&>svg]:hidden">
+          <AccordionTrigger className="hover:no-underline p-0 cursor-pointer transition-colors rounded-none group [&>svg]:hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
             <div className="flex items-center gap-x-3 justify-between w-full text-left">
               <div className="flex items-center gap-x-3 flex-1 min-w-0">
-                <LogoImage src={work.logoUrl} alt={work.company} />
+                <LogoImage
+                  src={work.logoUrl}
+                  alt={work.company}
+                  fallback={initials(work.company)}
+                />
                 <div className="flex-1 min-w-0 gap-0.5 flex flex-col">
                   <div className="font-semibold leading-none flex items-center gap-2">
                     {work.company}
@@ -65,22 +75,28 @@ export default function WorkSection() {
                   </div>
                   <div className="font-sans text-sm text-muted-foreground">
                     {work.title}
+                    {work.location ? ` · ${work.location}` : ""}
                   </div>
                 </div>
               </div>
               <div className="flex items-center gap-1 text-xs tabular-nums text-muted-foreground text-right flex-none">
                 <span>
-                  {work.start} - {work.end ?? DATA.sections.work.presentLabel}
+                  {work.end && work.end !== work.start
+                    ? `${work.start} – ${work.end}`
+                    : work.end
+                      ? work.start
+                      : `${work.start} – ${DATA.sections.work.presentLabel}`}
                 </span>
               </div>
             </div>
           </AccordionTrigger>
-          <AccordionContent className="p-0 ml-13 text-xs sm:text-sm text-muted-foreground">
-            {work.description}
+          <AccordionContent className="p-0 ml-11 sm:ml-13 text-xs sm:text-sm text-muted-foreground">
+            <div className="prose prose-sm max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert">
+              <Markdown>{work.description}</Markdown>
+            </div>
           </AccordionContent>
         </AccordionItem>
       ))}
     </Accordion>
   );
 }
-
