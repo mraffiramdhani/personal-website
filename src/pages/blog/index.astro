@@ -3,18 +3,14 @@ export const prerender = true;
 
 import Layout from "@/layouts/Layout.astro";
 import BlogList from "@/components/BlogList";
-import { getCollection } from "astro:content";
 import { paginate, normalizePage } from "@/lib/pagination";
+import { getPublishedBlogPosts } from "@/lib/blog";
 import { CONFIG } from "@/data/config";
 import { DATA } from "@/data/resume";
 
 const PAGE_SIZE = CONFIG.blog.postsPerPage;
 
-const allPosts = await getCollection("blog");
-const sortedPosts = [...allPosts].sort((a, b) => {
-  if (new Date(a.data.publishedAt) > new Date(b.data.publishedAt)) return -1;
-  return 1;
-});
+const sortedPosts = await getPublishedBlogPosts();
 
 const pageParam = Astro.url.searchParams.get("page") ?? undefined;
 const totalPages = Math.ceil(sortedPosts.length / PAGE_SIZE);

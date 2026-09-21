@@ -23,12 +23,16 @@ const prettyCodeOptions = {
 };
 
 const isProduction = process.env.NODE_ENV === 'production';
+// Keystatic needs Node-friendly SSR. Cloudflare Workers + Astro 6 still break
+// GitHub OAuth (`Astro.locals.runtime.env` was removed). Keep the admin on
+// `astro dev` unless KEYSTATIC_ENABLE_PRODUCTION is set on a Node host.
+const enableKeystatic =
+    !isProduction || process.env.KEYSTATIC_ENABLE_PRODUCTION === 'true';
 
 // https://astro.build/config
 export default defineConfig({
     site: CONFIG.site.url,
     output: 'static',
-    // Cloudflare Workers dev runtime breaks Keystatic (Node-only SSR routes).
     ...(isProduction && {
         adapter: cloudflare({
             imageService: 'compile',
@@ -48,8 +52,7 @@ export default defineConfig({
 
     integrations: [
       react(),
-      // Keystatic admin is dev-only; production builds use the Cloudflare adapter.
-      ...(!isProduction ? [keystatic()] : []),
+      ...(enableKeystatic ? [keystatic()] : []),
       mdx({
           remarkPlugins: [remarkGfm, remarkCodeMeta],
           rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]],

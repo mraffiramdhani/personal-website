@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "cms": "astro dev",
+    "cms": "astro dev --open /keystatic",
     "build": "NODE_ENV=production astro build",
     "preview:cf": "NODE_ENV=production astro build && wrangler dev --config dist/server/wrangler.json",
     "deploy": "NODE_ENV=production astro build && wrangler deploy --config dist/server/wrangler.json",

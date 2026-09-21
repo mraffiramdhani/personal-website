@@ -1,18 +1,15 @@
 ---
 export const prerender = true;
 import Layout from "@/layouts/Layout.astro";
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import { DATA } from "@/data/resume";
+import { getPublishedBlogPosts } from "@/lib/blog";
 import { formatDate } from "@/lib/utils";
 import { mdxComponents } from "@/mdx-components";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  const sortedPosts = [...posts].sort((a, b) => {
-    if (new Date(a.data.publishedAt) > new Date(b.data.publishedAt)) return -1;
-    return 1;
-  });
+  const sortedPosts = await getPublishedBlogPosts();
   return sortedPosts.map((post, index) => ({
     params: { slug: post.id },
     props: {
@@ -24,7 +21,7 @@ export async function getStaticPaths() {
 }
 
 const { post, previousPost, nextPost } = Astro.props;
-const { title, publishedAt, summary, image } = post.data;
+const { title, publishedAt, updatedAt, summary, image } = post.data;
 const slug = post.id;
 
 const { Content } = await render(post);
@@ -34,7 +31,7 @@ const jsonLd = JSON.stringify({
   "@type": "BlogPosting",
   headline: title,
   datePublished: publishedAt,
-  dateModified: publishedAt,
+  dateModified: updatedAt ?? publishedAt,
   description: summary,
   image: image
     ? image.startsWith("http")
