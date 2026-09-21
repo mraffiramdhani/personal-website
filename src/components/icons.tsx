@@ -5,6 +5,25 @@ export type IconProps = React.HTMLAttributes<SVGElement>;
 export const Icons = {
   globe: (props: IconProps) => <GlobeIcon {...props} />,
   email: (props: IconProps) => <MailIcon {...props} />,
+  javascript: (props: IconProps) => (
+    <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <title>JavaScript</title>
+      <rect width="256" height="256" rx="28" fill="#F7DF1E" />
+      <path
+        fill="#111"
+        d="M119.3 184.4c0 16.6-9.7 30.5-36.8 30.5-18.3 0-29.8-9.1-35.4-20.1l19.2-11.6c3.3 5.8 7.9 10.1 16 10.1 8 0 13.1-3.1 13.1-15.2v-65h23.9v71.3Zm42.7 29.6c-21.3 0-35-10.1-41.8-23.4l19.2-11.1c4.5 7.3 10.3 12.7 20.6 12.7 8.7 0 14.3-4.3 14.3-10.3 0-7.2-5.7-9.7-15.3-13.9l-5.3-2.3c-15.2-6.5-25.3-14.6-25.3-31.8 0-15.8 12-27.8 30.8-27.8 13.4 0 23 4.7 30 16.8l-18.4 11.8c-4-7.1-8.4-9.9-11.6-9.9-5.3 0-8.6 3.4-8.6 9.9 0 6.9 4.3 9.7 14.3 14.1l5.3 2.3c17.9 7.7 28 15.6 28 33.3 0 19.1-15 29.6-35.2 29.6Z"
+      />
+    </svg>
+  ),
+  nestjs: (props: IconProps) => (
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <title>NestJS</title>
+      <path
+        fill="#E0234E"
+        d="M16.4 2.4c-.6.7-1.2 1.5-1.7 2.3C10.3.8 4.8 2.6 3 6.9 1.4 10.6 2.3 15 5.4 17.5c-.4-2 .2-4.2 1.6-5.8.2 2.8 1.6 5.4 3.9 7.1-2.4.4-4.9-.2-6.8-1.7 1.5 3.4 5 5.5 8.7 5.3 4.4-.2 8-3.6 8.5-8 .6-5-2.5-9.6-7-11.1.6.9 1 1.9 1.2 3 .3-1.4.3-2.8-.1-4.1z"
+      />
+    </svg>
+  ),
   linkedin: (props: IconProps) => (
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
       <title>LinkedIn</title>

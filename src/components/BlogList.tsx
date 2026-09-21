@@ -37,7 +37,7 @@ export default function BlogList({ posts, allPostsCount, pagination, pageSize }:
           </span>
         </h1>
         <p className="text-sm text-muted-foreground mb-8">
-          My personal reflections about web development, life, and more.
+          Notes on JavaScript, TypeScript, and building products — when I publish something here, it will show up below.
         </p>
       </BlurFade>
 
