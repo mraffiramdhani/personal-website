@@ -1,0 +1,3 @@
+# Page 1 lives at /blog. Cloudflare static _redirects cannot match ?page=,
+# so legacy /blog?page=N URLs are not redirected here.
+/blog/page/1 /blog 301

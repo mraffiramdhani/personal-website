@@ -1,0 +1,29 @@
+---
+export const prerender = true;
+
+import BlogIndex from "@/components/BlogIndex.astro";
+import { getPublishedBlogPosts } from "@/lib/blog";
+import { CONFIG } from "@/data/config";
+
+export async function getStaticPaths({ paginate }) {
+  const posts = await getPublishedBlogPosts();
+  // Page 1 is the prerendered /blog index. This route is /blog/page/2, /blog/page/3, ...
+  return paginate(posts, { pageSize: CONFIG.blog.postsPerPage }).filter(
+    (entry) => entry.props.page.currentPage > 1,
+  );
+}
+
+const { page } = Astro.props;
+---
+
+<BlogIndex
+  posts={page.data}
+  allPostsCount={page.total}
+  pagination={{
+    page: page.currentPage,
+    totalPages: page.lastPage,
+    hasNextPage: page.currentPage < page.lastPage,
+    hasPreviousPage: page.currentPage > 1,
+  }}
+  pageSize={page.size}
+/>

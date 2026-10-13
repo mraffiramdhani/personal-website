@@ -15,31 +15,11 @@ export function initials(name: string, max = 2) {
     .toUpperCase()
 }
 
-export function siteCanonical(
-  pathname: string,
-  siteUrl: string,
-  search?: string | URLSearchParams,
-) {
+/** Path-only canonical. Query strings are omitted so each static page is self-canonical. */
+export function siteCanonical(pathname: string, siteUrl: string) {
   const origin = siteUrl.replace(/\/$/, "")
-  const path =
-    pathname === "/" || pathname === ""
-      ? origin
-      : `${origin}${pathname.replace(/\/$/, "")}`
-
-  const params =
-    search instanceof URLSearchParams
-      ? search
-      : new URLSearchParams(
-          typeof search === "string" && search.startsWith("?")
-            ? search.slice(1)
-            : (search ?? ""),
-        )
-  const page = params.get("page")
-  if (!page) return path
-
-  const canonicalParams = new URLSearchParams()
-  canonicalParams.set("page", page)
-  return `${path}?${canonicalParams.toString()}`
+  if (pathname === "/" || pathname === "") return origin
+  return `${origin}${pathname.replace(/\/$/, "")}`
 }
 
 export function formatDate(date: string | Date) {

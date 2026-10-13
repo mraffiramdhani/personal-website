@@ -1,0 +1,46 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import BlogList from "@/components/BlogList";
+import { DATA } from "@/data/resume";
+import type { BlogPost } from "@/lib/blog";
+
+interface Pagination {
+  page: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+}
+
+interface Props {
+  posts: BlogPost[];
+  allPostsCount: number;
+  pagination: Pagination;
+  pageSize: number;
+}
+
+const { posts, allPostsCount, pagination, pageSize } = Astro.props;
+
+const listPosts = posts.map((post) => ({
+  id: post.id,
+  title: post.data.title,
+  summary: post.data.summary,
+  image: post.data.image,
+  publishedAt:
+    post.data.publishedAt instanceof Date
+      ? post.data.publishedAt.toISOString()
+      : String(post.data.publishedAt),
+}));
+---
+
+<Layout
+  title="Blog"
+  description={`Notes from ${DATA.shortName} Ramdhani on JavaScript, TypeScript, and building products.`}
+>
+  <BlogList
+    client:load
+    posts={listPosts}
+    allPostsCount={allPostsCount}
+    pagination={pagination}
+    pageSize={pageSize}
+  />
+</Layout>

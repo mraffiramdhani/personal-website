@@ -24,8 +24,7 @@ const pageTitle = title
   ? CONFIG.seo.titleTemplate.replace("%s", title).replace("%n", DATA.name)
   : DATA.seoTitle;
 const resolvedCanonical =
-  canonicalURL ??
-  siteCanonical(Astro.url.pathname, CONFIG.site.url, Astro.url.searchParams);
+  canonicalURL ?? siteCanonical(Astro.url.pathname, CONFIG.site.url);
 const ogImage = image
   ? image.startsWith("http")
     ? image

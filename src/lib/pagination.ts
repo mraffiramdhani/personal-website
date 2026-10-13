@@ -57,6 +57,12 @@ export function getPaginationMeta(
   };
 }
 
+/** Page 1 is `/blog`. Later pages are `/blog/page/2`, `/blog/page/3`, ... */
+export function blogPagePath(page: number): string {
+  if (!Number.isFinite(page) || page <= 1) return "/blog";
+  return `/blog/page/${page}`;
+}
+
 export function normalizePage(page: number | string | undefined, maxPage: number): number {
   if (typeof page === "string") {
     const parsed = parseInt(page, 10);
