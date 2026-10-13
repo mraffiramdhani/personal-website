@@ -129,7 +129,12 @@ const sectionComponents: Record<string, React.ReactNode> = {
           {DATA.skills.map((skill, id) => (
             <BlurFade key={skill.name} delay={BLUR_FADE_DELAY * 10 + id * 0.04}>
               <div className="border bg-card/80 border-border ring-1 ring-border/40 rounded-full h-8 w-fit px-3.5 flex items-center gap-2">
-                {skill.icon && <skill.icon className="size-3.5 rounded-sm overflow-hidden object-contain" />}
+                {skill.icon && (
+                  <skill.icon
+                    aria-hidden="true"
+                    className="size-3.5 rounded-sm overflow-hidden object-contain"
+                  />
+                )}
                 <span className="text-foreground text-sm font-medium">{skill.name}</span>
               </div>
             </BlurFade>

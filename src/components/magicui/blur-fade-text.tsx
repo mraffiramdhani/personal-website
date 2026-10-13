@@ -34,7 +34,7 @@ const BlurFadeText = ({
 
   if (animateByCharacter) {
     return (
-      <div className="flex">
+      <span className="flex">
         {characters.map((char, i) => {
           const charVariants: Variants = {
             hidden: { y: -yOffset, opacity: 0, filter: "blur(8px)" },
@@ -58,12 +58,12 @@ const BlurFadeText = ({
             </motion.span>
           );
         })}
-      </div>
+      </span>
     );
   }
 
   return (
-    <div className="flex">
+    <span className="flex">
       <motion.span
         initial="hidden"
         animate="visible"
@@ -77,7 +77,7 @@ const BlurFadeText = ({
       >
         {text}
       </motion.span>
-    </div>
+    </span>
   );
 };
 

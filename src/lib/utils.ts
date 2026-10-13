@@ -15,6 +15,7 @@ export function initials(name: string, max = 2) {
     .toUpperCase()
 }
 
+/** Path-only canonical. Query strings are omitted so each static page is self-canonical. */
 export function siteCanonical(pathname: string, siteUrl: string) {
   const origin = siteUrl.replace(/\/$/, "")
   if (pathname === "/" || pathname === "") return origin
