@@ -49,7 +49,7 @@ export default function WorkSection() {
               <div className="flex items-center gap-x-3 flex-1 min-w-0">
                 <LogoImage
                   src={work.logoUrl}
-                  alt={work.company}
+                  alt=""
                   fallback={initials(work.company)}
                 />
                 <div className="flex-1 min-w-0 gap-0.5 flex flex-col">

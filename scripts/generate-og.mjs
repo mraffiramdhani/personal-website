@@ -1,5 +1,5 @@
 import sharp from "sharp";
-import { writeFileSync } from "node:fs";
+import { rmSync, writeFileSync } from "node:fs";
 
 const ogSvg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
@@ -28,7 +28,8 @@ const iconSvg = `<?xml version="1.0" encoding="UTF-8"?>
 
 await sharp(Buffer.from(ogSvg)).png().toFile("public/og_image.png");
 await sharp(Buffer.from(iconSvg)).resize(180, 180).png().toFile("public/apple-touch-icon.png");
-await sharp(Buffer.from(iconSvg)).resize(32, 32).toFile("public/favicon.ico");
+await sharp(Buffer.from(iconSvg)).resize(32, 32).png().toFile("public/favicon.png");
+rmSync("public/favicon.ico", { force: true });
 
 writeFileSync("/tmp/og-generated", "ok");
-console.log("generated og_image.png, apple-touch-icon.png, favicon.ico");
+console.log("generated og_image.png, apple-touch-icon.png, favicon.png");
